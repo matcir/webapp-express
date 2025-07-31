@@ -9,11 +9,14 @@ function index(req, res) {
         error: true,
         message: err.message,
       });
-
+    //mappo su result per inserire il path prima del nome delle immagini
+    result.map((item) => {
+      item.image = "http://localhost:3000/img/" + item.image;
+    });
     res.json(result);
   });
 }
-
+//show
 function show(req, res) {
   const { id } = req.params;
   const sql = "SELECT * FROM movies WHERE id=?";
@@ -44,6 +47,9 @@ function show(req, res) {
 
       const movieReviews = result;
       movie.reviews = movieReviews;
+
+      //inserisco il path prima del nome dell'immagine
+      movie.image = "http://localhost:3000/img/" + movie.image;
 
       res.json(movie);
     });
