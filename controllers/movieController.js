@@ -56,7 +56,37 @@ function show(req, res) {
   });
 }
 
+function post(req, res) {
+  const { id } = req.params;
+  console.log("POST /reviews body:", req.body);
+  const { name, text, vote } = req.body;
+
+  const sql =
+    "INSERT INTO reviews (movie_id, name, text, vote) VALUES (?, ?, ?, ? )";
+
+  connection.execute(sql, [id, name, text, vote], (err, result) => {
+    if (err)
+      return res.status(500).json({
+        error: true,
+        message: err.message,
+      });
+
+    res.status(201).json({
+      error: false,
+      message: "review added successfully",
+      review: {
+        id: result.insertId,
+        movie_id: id,
+        name,
+        text,
+        vote,
+      },
+    });
+  });
+}
+
 module.exports = {
   index,
   show,
+  post,
 };

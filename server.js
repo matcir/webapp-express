@@ -6,6 +6,8 @@ const cors = require("cors");
 const routeNotFound = require("./middlewares/routeNotFound");
 const serverErrorHandler = require("./middlewares/serverErrorHandler");
 
+app.use(express.json());
+
 app.use(cors());
 app.use(express.static("public"));
 app.use("/api/movies", movieRouter);
